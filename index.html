@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html x-data="setup()" x-bind:data-theme="theme" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.50.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <script src="https://unpkg.com/htmx.org@1.8.5"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+
+    <script type="module" src="/main.js"></script>
+
+    <title>Apify Scraper</title>
+  </head>
+  <body>
+    <div
+      id="grid"
+      class="border-accent w-full h-full border-4 hero-content grid grid-cols-2"
+    >
+      <template x-if="options.show_panel_1">
+        <div
+          id="panel-1"
+          class="border-primary max-w-1/4 max-h-1/4 border-4 text-primary"
+        >
+          <h1>Scrape a Facebook Conversation</h1>
+
+          <form action="post">
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Url</span>
+              </label>
+              <label class="input-group input-group-vertical">
+                <input
+                  type="text"
+                  placeholder="info@site.com"
+                  class="input input-bordered"
+                />
+              </label>
+            </div>
+
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      </template>
+
+      <template x-if="options.show_panel_2">
+        <div id="panel-2" class="max-w-1/4 max-h-1/4 border-primary border-4">
+          <h1>Panel 2</h1>
+        </div>
+      </template>
+
+      <template x-if="options.show_ideas_form">
+        <div
+          id="ideas_form"
+          class="max-w-1/4 max-h-1/4 border-primary border-4 text-accent"
+        >
+          <h1>Ideas Form</h1>
+        </div>
+      </template>
+
+      <template x-if="options.show_ideas">
+        <div class="border-primary border-4 max-w-1/4 max-h-1/4">
+          <h1>Ideas Panel</h1>
+        </div>
+      </template>
+    </div>
+  </body>
+
+  <footer x-show="false" class="footer footer-center p-10">
+    <!-- NOTE: you can use this panel as a way to debug things -->
+
+    <div id="controls" class="glass p-12 rounded-3xl">
+      <template x-for="[key, value] of Object.entries(options)">
+        <label class="cursor-pointer label">
+          <span x-text="key" class="label-text"></span>
+
+          <input
+            x-bind:checked="options[key]"
+            x-on:change="options[key]=!options[key]"
+            type="checkbox"
+            class="toggle toggle-primary"
+          />
+        </label>
+      </template>
+    </div>
+  </footer>
+
+  <script>
+    /**
+    Quick guide:
+    All variables inside the return {} are treated as 'reactive' by [AlpineJS]()
+     */
+
+    const regex_patterns = {
+      "docker-compose": {
+        find: "volumes:.[%5Cs|%5Cn|%5Cr]+((-%5Cs+[%5C-_%5C./a-zA-Z%5Cd:]+)[%5Cs|%5Cn|%5Cr])*",
+      },
+    };
+
+    function setup() {
+      return {
+        theme: "night",
+        options: {
+          show_ideas_form: false,
+          show_ideas: false,
+          show_panel_1: true,
+          show_panel_2: false,
+        },
+      };
+    }
+    /* sample: 
+    
+    https://www.facebook.com/nicholas.preston.3152/posts/pfbid0yPYicDFiDyGA9ejT2K2WRkVuhsAS96S3AtmEWD7drjdyrWL4XXGVQ47zioLXZMtwl?comment_id=220486430595970&notif_id=1681516332437955&notif_t=feed_comment&ref=notif
+    
+    https://www.facebook.com/nicholas.preston.3152/posts/pfbid0yPYicDFiDyGA9ejT2K2WRkVuhsAS96S3AtmEWD7drjdyrWL4XXGVQ47zioLXZMtwl
+
+    https://www.facebook.com/stephanie.reinke.92/posts/pfbid02NVjEKkMYt8eDfigKHUNeA9vUcUYdUWsszS2kXhdajan2TDveqVMh5aVUiep2NYWl
+
+
+    
+    */
+  </script>
+</html>
